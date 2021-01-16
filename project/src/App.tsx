@@ -20,6 +20,7 @@ import {
 const { Header, Sider, Content } = Layout
 const { Option } = Select
 
+
 const App: FC = () => {
   const [collapsed, setCollapsed] = useState(false)
   const [text, setText] = useState('')
@@ -148,28 +149,49 @@ const App: FC = () => {
       const c: any = document.getElementById('myCanvas')
       const im: any = document.getElementById('myImage')
       const ctx = c.getContext('2d')
-      ctx.clearRect(0, 0, ctx.width, ctx.height)
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-      ctx.fillStyle = 'white'
-      ctx.fillRect(0, 0, c.width, c.height)
+
       canvasTxt.lineHeight =
         (fonts.filter((i: any) => i.value === font)[0].line ?? 1.2) * size
       canvasTxt.fontSize = size
       canvasTxt.font = font
       canvasTxt.vAlign = 'top'
       // canvasTxt.justify = true
-      im.width = c.width = content.clientWidth - 10
+      let ratio = window.devicePixelRatio
+      const w = content.clientWidth - 10
+      const h = c.height / ratio
+      const w_ = w * ratio
+      const h_ = h * ratio
+      c.style.width = w.toString() + 'px'
+      c.style.height = h.toString() + 'px'
+      im.style.width = w.toString() + 'px'
+      im.style.height = h.toString() + 'px'
+      c.width = w_
+      c.height = h_
+      /* todo: possibly scale canvas
+      // ctx.scale(1 / ratio, 1 / ratio)
+      */
+
       const { height } = canvasTxt.drawText(
         ctx,
         preprocess({ text: (text ?? '').trim(), font }),
         0,
         size / 3,
-        c.width,
-        c.height
+        w_,
+        h_
       )
+      ctx.globalCompositeOperation = 'destination-over'
+      ctx.fillStyle = 'white'
+      ctx.fillRect(0, 0, ctx.width, ctx.height)
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+      ctx.globalCompositeOperation = 'source-over'
+
       im.src = c.toDataURL('image/webp', 1)
       if (redraw) {
-        im.height = c.height = Math.max(height + (size * 2) / 3, canvas_height)
+        im.style.height = c.height = c.style.height = Math.max(
+          height + (size * 2) / 3,
+          canvas_height
+        )
+
         call({
           text,
           font,
@@ -278,9 +300,7 @@ const App: FC = () => {
                 <img
                   id="myImage"
                   alt="text"
-                  width={canvas_width}
-                  height={canvas_height}
-                  style={{ outline: '1px solid #000' }}
+                  style={{ outline: '1px solid #000', width:  canvas_width, height: canvas_height}}
                 />
               </div>
             </Card>
