@@ -3,11 +3,19 @@ import canvasTxt from './canvas-txt'
 import './App.less'
 import { modzi } from 'lojban'
 
-import { Button } from 'antd'
-import { Layout, Menu } from 'antd'
-import { Form, Input } from 'antd'
-import { Select, Card } from 'antd'
-import { Slider } from 'antd'
+import {
+  Button,
+  Space,
+  Row,
+  Col,
+  Layout,
+  Menu,
+  Form,
+  Input,
+  Select,
+  Card,
+  Slider,
+} from 'antd'
 
 import {
   MenuUnfoldOutlined,
@@ -20,11 +28,41 @@ import {
 const { Header, Sider, Content } = Layout
 const { Option } = Select
 
+interface MyProps {
+  children?: React.ReactNode
+  text: string
+  fullText?: string
+  setText: any
+}
 
-const App: FC = () => {
-  const [collapsed, setCollapsed] = useState(false)
-  const [text, setText] = useState('')
-  const [size, setSize] = useState(50)
+const Butt: FC<MyProps> = ({ text, fullText, setText }) => {
+  return (
+    <Button
+      type="dashed"
+      size="small"
+      onClick={() => {
+        setText(fullText ?? text)
+      }}
+    >
+      {text}
+    </Button>
+  )
+}
+
+const App: any = () => {
+  let search = window?.location?.search;
+  let params = new URLSearchParams(search);
+  const query_text = params.get('text');
+
+  // const myWorker = new Worker('worker.js');
+
+  // const [collapsed, setCollapsed] = useState(false)
+  const [text, setText] = useState(query_text || '')
+  const defaultSize = 100
+  const [src, setSrc] = useState(
+    'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA='
+  )
+  const [size, setSize] = useState(defaultSize)
   const [family, setFamily] = useState('emoji')
 
   const canvas_width = 300
@@ -185,7 +223,7 @@ const App: FC = () => {
       ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
       ctx.globalCompositeOperation = 'source-over'
 
-      im.src = c.toDataURL('image/webp', 1)
+      setSrc(c.toDataURL('image/jpeg', 1))
       if (redraw) {
         im.style.height = c.height = c.style.height = Math.max(
           height + (size * 2) / 3,
@@ -246,7 +284,7 @@ const App: FC = () => {
               name="nest-messages"
               initialValues={{
                 font: 'emoji',
-                size: 50,
+                size: defaultSize,
               }}
             >
               <Form.Item name={['text']} label="Text">
@@ -258,15 +296,15 @@ const App: FC = () => {
                     setText(value)
                   }}
                 />
-                <Button
-                  type="link"
-                  size="small"
-                  onClick={() => {
-                    setText('coi ro do ma nuzba')
-                  }}
-                >
-                  coi ro do ma nuzba
-                </Button>
+                <Space size={[8, 16]} wrap style={{marginTop: '1em'}}>
+                  <Butt text="coi ro do ma nuzba" setText={setText} />
+                  <Butt text="mi prami do" setText={setText} />
+                  <Butt
+                    text="do noi mamgle"
+                    fullText="do noi mamgle i ko co'e doi se zargu be le cmalu i mabla jikca mi pei i do noi mabla cmalu se zargu gi'e se tance le sakli be le pinji i do mabla zukte e'e pei i e'e pei jikca mi i mi ba cpacu le zargu be do ga'i i ge'e do noi mamgle i a'o gletu do e ro lu'a le lanzu be do i e'e pei do noi pencu le pinji doi culno be le fusra doi bebna se flira be le kalci i e'e pei doi citka be le se cigla do jikca mi pei i e'e pei doi se zargu"
+                    setText={setText}
+                  />
+                </Space>
               </Form.Item>
               <Form.Item name="font" label="Font">
                 <Select
@@ -290,7 +328,7 @@ const App: FC = () => {
                   onChange={(value: number) => {
                     setSize(value)
                   }}
-                  value={typeof size === 'number' ? size : 50}
+                  value={typeof size === 'number' ? size : defaultSize}
                 />
               </Form.Item>
             </Form>
@@ -300,7 +338,12 @@ const App: FC = () => {
                 <img
                   id="myImage"
                   alt="text"
-                  style={{ outline: '1px solid #000', width:  canvas_width, height: canvas_height}}
+                  src={src}
+                  style={{
+                    outline: '1px solid #000',
+                    width: canvas_width,
+                    height: canvas_height,
+                  }}
                 />
               </div>
             </Card>

@@ -28,14 +28,6 @@ const canvasTxt = {
     const xEnd = x + width
     const yEnd = y + height
 
-    if (this.textSize) {
-      console.error(
-        '%cCanvas-Txt:',
-        'font-weight: bold;',
-        'textSize is depricated and has been renamed to fontSize'
-      )
-    }
-
     const { fontStyle, fontVariant, fontWeight, fontSize, font } = this
     const style = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${font}`
     ctx.font = style
@@ -110,6 +102,7 @@ const canvasTxt = {
       }
       // end foreach temptextarray
     })
+
     const charHeight = this.lineHeight
       ? this.lineHeight
       : this.getTextHeight(ctx, mytext, style) //close approximation of height with width

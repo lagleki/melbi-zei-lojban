@@ -7276,10 +7276,10 @@ loglevel@^1.6.8:
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.7.0.tgz#728166855a740d59d38db01cf46f042caa041bb0"
   integrity sha512-i2sY04nal5jDcagM3FMfG++T69GEEM8CYuOfeOIvmXzOIcwE9a/CJPR0MFM97pYMj/u10lzz7/zd7+qwhrBTqQ==
 
-lojban@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/lojban/-/lojban-2.0.5.tgz#b53003eb399da6184ac56cda3bc1e84c9267c614"
-  integrity sha512-NveACk26btO9yWSdbgATOKKJrDcb5LVsBh9NXX8iBcaspedpJtUEDVXYlWrplZ/2c/CJelQwBczYLiVERi+YXw==
+lojban@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/lojban/-/lojban-2.0.7.tgz#7312da077eae6b510389c1664f24e20cfb619cee"
+  integrity sha512-JmVuEwYhaQ0m7yOHtMZa73jWTPlTiVCGG6Gw8fufB1RpJnEcKYAeLQRu8gxnsyhhlLe0nVU5s9hupdELCI0muQ==
   dependencies:
     axios "^0.21.1"
     querystring "^0.2.0"
