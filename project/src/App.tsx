@@ -90,6 +90,19 @@ const App: any = () => {
   // }
 
   useEffect(() => {
+    async function areFontsReady() {
+        await (document as any).fonts.ready
+        try {
+          const im: any = document.getElementById('myImage')
+          im.setAttribute("data:fonts-loaded", true);
+        } catch (error) {
+        }
+    }
+
+    areFontsReady()
+})
+
+  useEffect(() => {
     const timeout = setTimeout(() => {
       if (!text)
         for (const font of fonts) call({ text: '', font: font.value, size })

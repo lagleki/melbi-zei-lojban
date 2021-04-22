@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 RUN apk add --no-cache bash
-RUN apk add --update nodejs npm yarn
+RUN apk add --update nodejs npm yarn git
 # ENV PYTHONUNBUFFERED=1
 # RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
 # RUN python3 -m ensurepip
