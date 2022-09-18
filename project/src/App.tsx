@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useMemo, FC } from 'react'
 import canvasTxt from './canvas-txt'
 import './App.less'
-import { modzi } from 'lojban'
+import { modzi, anji } from 'lojban'
 
 import {
   Button,
   Space,
-  Row,
-  Col,
   Layout,
-  Menu,
   Form,
   Input,
   Select,
@@ -17,15 +14,8 @@ import {
   Slider,
 } from 'antd'
 
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-} from '@ant-design/icons'
 
-const { Header, Sider, Content } = Layout
+const { Content } = Layout
 const { Option } = Select
 
 interface MyProps {
@@ -76,6 +66,7 @@ const App: any = () => {
   const fonts = useMemo(
     () => [
       { name: 'Emoji', value: 'emoji', line: 1.5 },
+      { name: 'Hanzi', value: 'anji', line: 1.5 },
       { name: 'Vrude', value: 'vrude-regular', line: 1.2 },
       { name: 'Crisa', value: 'crisa', line: 1.2 },
     ],
@@ -157,6 +148,8 @@ const App: any = () => {
         return zbalermornaize({ w: '', ot, rfs })
       } else if (['modzi', 'emoji'].includes(font)) {
         return modzi(text, false)
+      } else if (['anji'].includes(font)) {
+        return anji(text)
       } else return text
     }
 
